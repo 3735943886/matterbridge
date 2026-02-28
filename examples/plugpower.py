@@ -1,4 +1,17 @@
-# Example: smart plug with energy and power measurement.
+# Example: Smart Plug with Energy and Power Measurement
+#
+# This example demonstrates how to create a smart plug device that includes energy monitoring capabilities.
+# It models a device with two endpoints:
+# 1. Plug Endpoint: Standard on/off control for the plug.
+# 2. Energy Endpoint: Exposes electrical measurements such as voltage, current, power, and cumulative energy.
+#
+# Key features demonstrated:
+# - Using standard Matter device types (On/Off Plug-in Unit, Electrical Sensor).
+# - Implementing measurement clusters (Electrical Power Measurement, Electrical Energy Measurement).
+# - Updating complex attribute values (e.g., structures for energy measurement).
+# - Simulating real-time power consumption data in a background loop.
+# - Managing device state with thread safety using locks.
+
 from matterbridge import (
     Bridge,
     DeviceConfigBuilder,

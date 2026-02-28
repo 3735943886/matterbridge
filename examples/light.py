@@ -1,4 +1,17 @@
-# Example: basic on/off, dimming, and color lights.
+# Example: Basic On/Off, Dimming, and Color Light Implementation
+#
+# This example demonstrates how to create a Matter bridge that exposes three different types of light devices:
+# 1. On/Off Light: Supports basic on/off control.
+# 2. Dimmable Light: Adds brightness control (Level Control cluster) to the on/off functionality.
+# 3. Extended Color Light: Supports full color control (Color Control cluster) in addition to dimming and on/off.
+#
+# Key features demonstrated:
+# - Configuring multiple endpoints on a single device (DeviceConfigBuilder).
+# - Setting up specific clusters for different device types (EndpointPreset).
+# - Handling attribute updates from the Matter fabric (event_loop).
+# - Periodically updating device state to simulate external changes (update_loop).
+# - Customizing Bridge information (Vendor ID, Product ID, Name, Serial Number).
+
 from matterbridge import (
     Bridge,
     DeviceConfigBuilder,
@@ -16,7 +29,14 @@ storage_path = os.environ.get(
     os.path.join(tempfile.gettempdir(), "matterbridge-light"),
 )
 
-bridge = Bridge(storage_path)
+bridge = Bridge(
+    storage_path,
+    vendor_id=0xFFF1,
+    product_id=0x8000,
+    vendor_name="3735943886",
+    product_name="Python Light Bridge",
+    serial_number="PY-LIGHT-BRIDGE-0001",
+)
 
 onoff_endpoint = EndpointPreset(device_type("on_off_light"))
 onoff_endpoint.cluster_list([cluster("on_off")])

@@ -31,9 +31,9 @@ dev = bridge.add_device(cfg.build())
 
 if not bridge.is_commissioned():
     info = bridge.open_commissioning_window_qr()
-if info is not None:
-    print(info["qr_code_text"])
-    print(info["qr_code"])
+    if info is not None:
+        print(info["qr_code_text"])
+        print(info["qr_code"])
 
 events, _runner = bridge.start()
 
@@ -42,6 +42,17 @@ while True:
     if evt is not None:
         print(evt)
 ```
+
+## Examples
+
+Check out the [examples/](./examples/) directory for complete usage scenarios:
+
+- [light.py](./examples/light.py) - Basic On/Off, Dimmable, and Extended Color Light implementation.
+- [plugpower.py](./examples/plugpower.py) - Smart Plug with electrical energy and power measurement.
+- [sensors.py](./examples/sensors.py) - Multi-sensor suite (Temperature, Humidity, Pressure, Light, Occupancy, Contact).
+- [fan.py](./examples/fan.py) - Fan Control with multi-speed support and mode sequencing.
+- [curtain.py](./examples/curtain.py) - Window Covering (Curtain) control with position management.
+- [doorlock.py](./examples/doorlock.py) - Door Lock with security command handling.
 
 ## Threading notes
 - `EventStream` is a single-consumer stream; avoid reading from multiple threads at once.

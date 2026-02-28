@@ -1,3 +1,16 @@
+# Example: Window Covering (Curtain) Control
+#
+# This example demonstrates how to implement a Window Covering device (e.g., blinds, curtains).
+# It handles the Window Covering cluster which involves complex command processing for movement control.
+#
+# Key features demonstrated:
+# - Implementing the Window Covering device type and cluster.
+# - detailed TLV (Type-Length-Value) parsing for command payloads using a helper class.
+# - Handling various movement commands: Up/Open, Down/Close, Stop, GoToLiftValue, GoToLiftPercentage.
+# - Maintaining and updating position attributes (Lift, Tilt) and operational status.
+# - Simulating the physical movement of the curtain over time in a separate thread.
+# - Synchronization between command reception and state updates.
+
 from matterbridge import Bridge, DeviceConfigBuilder, EndpointPreset, device_type, cluster
 import os
 import tempfile

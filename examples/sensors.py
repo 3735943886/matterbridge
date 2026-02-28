@@ -1,4 +1,16 @@
-# Example: sensor suite emitting periodic measurements.
+# Example: Multi-Sensor Suite (Temperature, Humidity, Pressure, Light, Occupancy, Contact)
+#
+# This example demonstrates how to create a composite device that acts as a suite of various sensors.
+# It shows how to aggregate multiple independent sensor endpoints into a single bridged device.
+#
+# Key features demonstrated:
+# - Creating multiple endpoints for different sensor types:
+#   - Temperature, Humidity, Pressure, Illuminance (Light), Occupancy, and Contact (Boolean State).
+# - Configuring a single DeviceConfig to host all these endpoints.
+# - Simulating sensor data changes using mathematical functions (sine waves) to generate dynamic values.
+# - Periodically updating all sensor attributes in a continuous loop.
+# - Demonstrating the handling of different data types (float, int, boolean) for Matter attributes.
+
 from matterbridge import (
     Bridge,
     DeviceConfigBuilder,

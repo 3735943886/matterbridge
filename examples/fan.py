@@ -1,4 +1,16 @@
-# Example: fan control with periodic state updates.
+# Example: Fan Control with Multi-Speed Support
+#
+# This example demonstrates a Fan Control device implementation supporting various modes and speeds.
+# It covers the complexities of the Fan Control cluster, including speed setting, mode sequencing, and airflow direction.
+#
+# Key features demonstrated:
+# - Implementing the Fan device type with Fan Control and On/Off clusters.
+# - defining constants for Fan Modes (Off, Low, Medium, High, Auto, Smart) and Sequences.
+# - Handling logic for speed adjustments (Step command) based on the current mode sequence.
+# - Mapping between percent settings and discrete speed modes.
+# - Periodic state updates to simulate fan operation and feedback.
+# - Comprehensive handling of attribute updates (Fan Mode, Percent Setting, Airflow Direction).
+
 from matterbridge import Bridge, DeviceConfigBuilder, EndpointPreset, device_type, cluster
 import os
 import tempfile

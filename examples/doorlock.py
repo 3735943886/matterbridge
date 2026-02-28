@@ -1,4 +1,16 @@
-# Example: door lock with simple command handling.
+# Example: Door Lock with Command Handling
+#
+# This example implements a Door Lock device, demonstrating how to handle security-related commands and states.
+# It simulates a smart lock that can be locked, unlocked, and unbolted via Matter commands.
+#
+# Key features demonstrated:
+# - Implementing the Door Lock device type and cluster.
+# - Handling specific Door Lock commands: Lock Door, Unlock Door, Unbolt Door, Unlock with Timeout.
+# - Managing Lock State (Locked, Unlocked, Unlatched) and Door State (Open, Closed).
+# - Thread-safe state management for processing commands and updating attributes.
+# - reflecting local state changes back to the Matter fabric (dev.update_attribute).
+# - Simple event loop for processing incoming command events.
+
 from matterbridge import Bridge, DeviceConfigBuilder, EndpointPreset, device_type, cluster
 import os
 import tempfile
