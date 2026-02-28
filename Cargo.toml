@@ -1,0 +1,17 @@
+[package]
+name = "matterbridge"
+version = "0.0.3"
+edition = "2024"
+readme = "README.md"
+
+[lib]
+name = "matterbridge"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.28", features = ["extension-module", "abi3-py38"] }
+pyo3-async-runtimes = { version = "0.28", features = ["tokio-runtime"] }
+rmb = { package = "rust-matter-bridge", path = "..", features = ["zeroconf"] }
+async-io = "2"
+futures = "0.3"
+tokio = { version = "1", features = ["rt", "macros", "sync", "time"] }
