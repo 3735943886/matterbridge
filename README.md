@@ -30,10 +30,7 @@ cfg.endpoint(endpoint)
 dev = bridge.add_device(cfg.build())
 
 if not bridge.is_commissioned():
-    info = bridge.open_commissioning_window_qr()
-    if info is not None:
-        print(info["qr_code_text"])
-        print(info["qr_code"])
+    bridge.open_commissioning_window_qr()
 
 events, _runner = bridge.start()
 
