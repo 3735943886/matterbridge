@@ -42,7 +42,7 @@ while True:
 
 ## Examples
 
-Check out the [examples/](./examples/) directory for complete usage scenarios:
+Check out the [examples/](./examples/) directory for common usage scenarios:
 
 - [light.py](./examples/light.py) - Basic On/Off, Dimmable, and Extended Color Light implementation.
 - [plugpower.py](./examples/plugpower.py) - Smart Plug with electrical energy and power measurement.
