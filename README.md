@@ -48,6 +48,7 @@ Check out the [examples/](./examples/) directory for common usage scenarios:
 - [plugpower.py](./examples/plugpower.py) - Smart Plug with electrical energy and power measurement.
 - [sensors.py](./examples/sensors.py) - Multi-sensor suite (Temperature, Humidity, Pressure, Light, Occupancy, Contact).
 - [fan.py](./examples/fan.py) - Fan Control with multi-speed support and mode sequencing.
+- [thermostat.py](./examples/thermostat.py) - Thermostat with setpoints and local temperature updates.
 - [curtain.py](./examples/curtain.py) - Window Covering (Curtain) control with position management.
 - [doorlock.py](./examples/doorlock.py) - Door Lock with security command handling.
 
