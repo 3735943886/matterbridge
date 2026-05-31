@@ -2,7 +2,12 @@
 name = "matterbridge"
 version = "0.0.3"
 edition = "2024"
+description = "Pythonic API for building a Matter bridge: register devices/endpoints and process events."
 readme = "README.md"
+repository = "https://github.com/3735943886/matterbridge"
+authors = ["3735943886"]
+license-file = "LICENSE"
+publish = false
 
 [lib]
 name = "matterbridge"
@@ -10,6 +15,6 @@ crate-type = ["cdylib"]
 
 [dependencies]
 pyo3 = { version = "0.28", features = ["extension-module", "abi3-py38"] }
-rmb = { package = "rust-matter-bridge", path = "..", features = ["zeroconf"] }
+rmb = { package = "rust-matter-bridge", path = "../rust-matter-bridge", features = ["zeroconf"] }
 async-io = "2"
 futures = "0.3"

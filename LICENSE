@@ -1,0 +1,12 @@
+matterbridge — All rights reserved.
+
+This project is source-available but unlicensed. No license to use, copy,
+modify, or distribute this software (in source or binary form) is granted,
+whether expressly, by implication, estoppel, or otherwise.
+
+matterbridge is a Python binding for "rust-matter-bridge", which is itself
+source-available and unlicensed ("All rights reserved"); this package
+therefore inherits the same restriction. Refer to the repository owner for
+usage permissions.
+
+Copyright (c) the matterbridge authors.

@@ -1,0 +1,28 @@
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "matterbridge"
+version = "0.0.3"
+description = "Pythonic API for building a Matter bridge: register devices/endpoints and process events."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+authors = [{ name = "3735943886" }]
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "License :: Other/Proprietary License",
+    "Operating System :: POSIX :: Linux",
+    "Topic :: Home Automation",
+]
+
+[project.urls]
+Repository = "https://github.com/3735943886/matterbridge"
+
+[tool.maturin]
+# Build the abi3 extension module (Python 3.8+); the crate already enables
+# pyo3's `extension-module` and `abi3-py38` features in Cargo.toml.
+features = ["pyo3/extension-module"]
