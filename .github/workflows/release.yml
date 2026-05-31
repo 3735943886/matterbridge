@@ -38,12 +38,12 @@ jobs:
             runner: ubuntu-24.04-arm
     steps:
       - name: Checkout matterbridge
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: matterbridge
 
       - name: Checkout private rmb (sibling dir for the path dependency)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: 3735943886/rust-matter-bridge
           ssh-key: ${{ secrets.RMB_DEPLOY_KEY }}
@@ -73,12 +73,12 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout matterbridge
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: matterbridge
 
       - name: Checkout private rmb (sibling dir for the path dependency)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: 3735943886/rust-matter-bridge
           ssh-key: ${{ secrets.RMB_DEPLOY_KEY }}
