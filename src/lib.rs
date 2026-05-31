@@ -7,9 +7,9 @@ use pyo3::prelude::*;
 use pyo3::types::{PyBool, PyBytes, PyDict, PyFloat, PyModule, PyString};
 use rmb::runtime::mdns::{MdnsBackend, set_mdns_backend as set_mdns_backend_rmb};
 use rmb::{
-    BasicInfoConfig, Bridge, BridgeConfig, BridgeEvent, ClusterPreset, ClusterRef, CommissioningInfo,
-    DatapointSelector, DatapointValue, DeviceConfig, DeviceConfigBuilder, DeviceHandle,
-    DeviceTypeRef, EndpointPreset, EnergyMeasurementData, MatterError, SwitchEvent,
+    BasicInfoConfig, Bridge, BridgeConfig, BridgeEvent, ClusterPreset, ClusterRef,
+    CommissioningInfo, DatapointError, DatapointSelector, DatapointValue, DeviceConfig, DeviceConfigBuilder,
+    DeviceHandle, DeviceTypeRef, EndpointPreset, EnergyMeasurementData, MatterError, SwitchEvent,
     known_cluster_refs, known_device_type_refs,
 };
 use std::future::Future;
@@ -35,6 +35,11 @@ fn start_worker(
     let (tx, rx) = unbounded::<WorkerCommand>();
     let (ready_tx, ready_rx) = std_mpsc::channel();
     let join: WorkerJoin = Arc::new(StdMutex::new(Some(thread::spawn(move || {
+        // `BasicInfoConfig` borrows its string fields as `&'static str`, so we
+        // intentionally leak the user-provided strings and the config itself to
+        // satisfy that lifetime. This is a one-time, bounded leak: a Bridge is
+        // expected to live for the whole process. Creating many Bridges in one
+        // process would accumulate these leaks.
         let mut basic_info = BasicInfoConfig::new();
         if let Some(vid) = vendor_id {
             basic_info.vid = vid;
@@ -200,7 +205,7 @@ fn worker_loop(bridge: Bridge, mut cmd_rx: UnboundedReceiver<WorkerCommand>) {
                     let res = devices
                         .get(&handle_id)
                         .ok_or_else(|| "unknown device handle".to_string())
-                        .and_then(|dev| dev.set(selector, value).map_err(|e| format!("{e:?}")));
+                        .and_then(|dev| dev.set(selector, value).map_err(format_datapoint_error));
                     let _ = reply.send(res);
                 }
                 Some(WorkerCommand::UpdateAttribute {
@@ -212,7 +217,7 @@ fn worker_loop(bridge: Bridge, mut cmd_rx: UnboundedReceiver<WorkerCommand>) {
                     let res = devices
                         .get(&handle_id)
                         .ok_or_else(|| "unknown device handle".to_string())
-                        .and_then(|dev| dev.update(selector, value).map_err(|e| format!("{e:?}")));
+                        .and_then(|dev| dev.update(selector, value).map_err(format_datapoint_error));
                     let _ = reply.send(res);
                 }
                 Some(WorkerCommand::Stop { reply }) => {
@@ -991,6 +996,25 @@ fn switch_event_to_py(py: Python<'_>, event: SwitchEvent) -> Py<PyAny> {
 
 fn normalize_name(name: &str) -> String {
     name.to_ascii_lowercase().replace('-', "_")
+}
+
+// `DatapointError` only derives `Debug` (no `Display`), so map it to a readable
+// message for the Python exception text instead of leaking the Debug form.
+fn format_datapoint_error(err: DatapointError) -> String {
+    match err {
+        DatapointError::UnsupportedAttribute { endpoint_id, cluster_id, attribute_id } => {
+            format!("unsupported attribute (ep {endpoint_id}, cluster {cluster_id:#x}, attr {attribute_id:#x})")
+        }
+        DatapointError::InvalidValue { endpoint_id, cluster_id, attribute_id } => {
+            format!("invalid value (ep {endpoint_id}, cluster {cluster_id:#x}, attr {attribute_id:#x})")
+        }
+        DatapointError::UnsupportedEvent { endpoint_id, cluster_id, event_id } => {
+            format!("unsupported event (ep {endpoint_id}, cluster {cluster_id:#x}, event {event_id:#x})")
+        }
+        DatapointError::InvalidEvent { endpoint_id, cluster_id, event_id } => {
+            format!("invalid event (ep {endpoint_id}, cluster {cluster_id:#x}, event {event_id:#x})")
+        }
+    }
 }
 
 fn parse_cluster_preset(preset: &str) -> PyResult<ClusterPreset> {
