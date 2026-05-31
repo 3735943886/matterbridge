@@ -56,11 +56,11 @@ jobs:
           manylinux: "2_28"
           working-directory: matterbridge
           args: --release --out dist
-          # manylinux_2_28 == AlmaLinux 8 (dnf). Install the avahi-compat dev
-          # headers/lib that the `zeroconf` feature links against.
+          # manylinux_2_28 == AlmaLinux 8 (dnf). The `zeroconf` backend pulls
+          # `avahi-sys`, which links avahi-client/avahi-common (avahi-devel) and
+          # generates bindings with bindgen (needs libclang from the clang pkg).
           before-script-linux: |
-            dnf install -y epel-release || true
-            dnf install -y avahi-compat-libdns_sd-devel
+            dnf install -y avahi-devel clang
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
