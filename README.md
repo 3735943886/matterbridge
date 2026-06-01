@@ -42,15 +42,12 @@ while True:
 
 ## Examples
 
-Check out the [examples/](./examples/) directory for common usage scenarios:
-
-- [light.py](./examples/light.py) - Basic On/Off, Dimmable, and Extended Color Light implementation.
-- [plugpower.py](./examples/plugpower.py) - Smart Plug with electrical energy and power measurement.
-- [sensors.py](./examples/sensors.py) - Multi-sensor suite (Temperature, Humidity, Pressure, Light, Occupancy, Contact).
-- [fan.py](./examples/fan.py) - Fan Control with multi-speed support and mode sequencing.
-- [thermostat.py](./examples/thermostat.py) - Thermostat with setpoints and local temperature updates.
-- [curtain.py](./examples/curtain.py) - Window Covering (Curtain) control with position management.
-- [doorlock.py](./examples/doorlock.py) - Door Lock with security command handling.
+Runnable examples live in the
+[`examples/`](https://github.com/3735943886/matterbridge/tree/master/examples)
+directory — On/Off & color lights, a smart plug with energy metering, a
+multi-sensor suite, fan, thermostat, curtain, and door lock. See the
+[examples README](https://github.com/3735943886/matterbridge/blob/master/examples/README.md)
+for the full list and descriptions.
 
 ## Threading notes
 - `EventStream` is a single-consumer stream; avoid reading from multiple threads at once.
