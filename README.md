@@ -3,7 +3,7 @@
 Pythonic API for creating a Matter bridge, registering devices/endpoints, and processing events.
 
 ## Requirements
-- Python 3.8+ (abi3)
+- Python 3.8+
 - zeroconf runtime dependency (required for mDNS)
 
 ## Installation
