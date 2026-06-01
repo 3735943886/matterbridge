@@ -1,20 +1,5 @@
 name: Release to PyPI
 
-# Builds abi3 wheels (cp38-abi3) for matterbridge and publishes them to PyPI.
-#
-# matterbridge depends on the PRIVATE crate `rust-matter-bridge` (rmb) via a
-# path dependency (`../rust-matter-bridge`). rmb is never published to crates.io
-# or PyPI: it is checked out into a sibling directory *inside the CI runner only*
-# (read-only deploy key) and statically compiled into the wheel. Only the linked,
-# symbol-stripped .so is distributed — the rmb source never leaves CI.
-#
-# The `zeroconf` mDNS backend links against avahi-compat (libdns_sd); the
-# manylinux_2_28 container installs the dev package and auditwheel bundles the
-# runtime lib into the wheel. End users still need an avahi daemon at runtime.
-#
-# Required secret on THIS repo:
-#   RMB_DEPLOY_KEY — a read-only SSH deploy key registered on the rmb repo.
-
 on:
   push:
     tags: ["v*"]
@@ -34,7 +19,6 @@ jobs:
           - target: x86_64
             runner: ubuntu-latest
           - target: aarch64
-            # Native ARM runner — avoids cross-compiling the avahi-compat C link.
             runner: ubuntu-24.04-arm
     steps:
       - name: Checkout matterbridge
@@ -56,9 +40,6 @@ jobs:
           manylinux: "2_28"
           working-directory: matterbridge
           args: --release --out dist
-          # manylinux_2_28 == AlmaLinux 8 (dnf). The `zeroconf` backend pulls
-          # `avahi-sys`, which links avahi-client/avahi-common (avahi-devel) and
-          # generates bindings with bindgen (needs libclang from the clang pkg).
           before-script-linux: |
             dnf install -y avahi-devel clang
 
@@ -90,10 +71,6 @@ jobs:
           target: x64
           working-directory: matterbridge
           args: --release --out dist
-          # No before-script: the existing PyPI win_amd64 wheels (0.0.1-0.0.3)
-          # built fine with the same nix + zeroconf deps. If the `zeroconf`
-          # backend turns out to need the Bonjour SDK (a missing dnssd.lib link
-          # error), add a Bonjour SDK install step here.
 
       - name: Upload artifact
         uses: actions/upload-artifact@v7
@@ -105,11 +82,9 @@ jobs:
     name: Publish to PyPI
     needs: [linux, windows]
     runs-on: ubuntu-latest
-    # Only publish on a tag push, never on manual dispatch test runs.
     if: startsWith(github.ref, 'refs/tags/')
     environment: pypi
     permissions:
-      # Required for PyPI Trusted Publishing (OIDC) — no API token needed.
       id-token: write
     steps:
       - name: Download all wheels

@@ -1,6 +1,6 @@
 [package]
 name = "matterbridge"
-version = "0.0.3"
+version = "0.0.4"
 edition = "2024"
 description = "Pythonic API for building a Matter bridge: register devices/endpoints and process events."
 readme = "README.md"
